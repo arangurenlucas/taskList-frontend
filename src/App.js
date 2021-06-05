@@ -14,6 +14,7 @@ function App() {
         <h1>Tasks List</h1>
         <nav className="nav-bar">
           <a href="/">Home</a>
+          <a href='/folders'>View Folders</a>
         </nav>
       </div>
       <div className="routes">
