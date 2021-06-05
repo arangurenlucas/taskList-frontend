@@ -19,7 +19,7 @@ export default function FoldersView() {
   };
 
   useEffect(() => {
-    getFolders();// eslint-disable-next-line react-hooks/exhaustive-deps
+    getFolders(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const removeFolder = async (idToRemove) => {
@@ -49,9 +49,8 @@ export default function FoldersView() {
             ))
           : null}
       </ul>
-      <label>
-        New Folder <button onClick={redirectionNewFolder}>Add</button>
-      </label>
+
+      <button onClick={redirectionNewFolder}>Add New Folder</button>
     </>
   );
 }

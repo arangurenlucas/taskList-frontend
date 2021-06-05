@@ -31,8 +31,8 @@ export default function TasksList(props) {
     }
   };
   useEffect(() => {
-    getTasks();// eslint-disable-next-line react-hooks/exhaustive-deps
-    getFolder();// eslint-disable-next-line react-hooks/exhaustive-deps
+    getTasks(); // eslint-disable-next-line react-hooks/exhaustive-deps
+    getFolder(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const redirectionNewTask = () => {
@@ -48,29 +48,46 @@ export default function TasksList(props) {
       swal("Error", e.response.data, "error");
     }
   };
+  const handleCheckbox = async (e, id) => {
+    try {
+      await axios.put(
+        "https://taskslist-api.herokuapp.com/tasks/completed/" + id,
+        { completed: e.target.checked }
+      );
+      getTasks();
+    } catch (e) {
+      swal("Error", e.response.data, "error");
+    }
+  };
 
   return (
-    <div>
+    <>
       <h2>Folder - {folder && folder.length > 0 ? folder[0].name : null}</h2>
       <ul>
         {tasks && tasks.length > 0
           ? tasks.map((item) => (
               <li key={item.id}>
-                <input type="checkbox" value={item.completed} />
+                <input
+                  type="checkbox"
+                  checked={
+                    item.completed == 1 || item.completed == true ? true : false
+                  }
+                  onChange={(e) => handleCheckbox(e, item.id)}
+                  value={item.completed}
+                />
                 {item.name}{" "}
-                <Link className="btn-editTask" to={"/folders/tasksList/edit/" + item.id}>
+                <Link
+                  className="btn-editTask"
+                  to={"/folders/tasksList/edit/" + item.id}
+                >
                   Edit
                 </Link>{" "}
-                <Link onClick={() => handleDelete(item.id)}>
-                  Remove
-                </Link>
+                <Link onClick={() => handleDelete(item.id)}>Remove</Link>
               </li>
             ))
           : null}
       </ul>
-      <label>
-        New Task <button onClick={redirectionNewTask}>Add</button>
-      </label>
-    </div>
+     <button onClick={redirectionNewTask}>Add New Task</button>
+    </>
   );
 }
